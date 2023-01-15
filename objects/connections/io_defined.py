@@ -1,34 +1,44 @@
-from io_types import IOTypes
+from objects.connections.io_abc import IOAbc
+from objects.connections.io_types import IOTypes
 
 
-class IODefined:
+class IODefined(IOAbc):
 
-    def __init__(self, iotype):
+    def __init__(self, iotype: IOTypes):
         self.connection = None
         self.iotype = iotype
 
     # class tries to connect and output if it connected
-    def connect(self, other_io):
-        if self.connection is not None:
-            self.connection.connection_break()
-            self.connection = None
+    def connect(self, other_io: IOAbc):
+        self.disconnect()
 
-        if other_io.connect_to(self) is False:
+        if other_io._connection(self) is False:
             return False
 
         self.connection = other_io
+        print("Connected")
         return True
 
-    def connect_to(self, first):
-        if self.connection is not None and self.iotype is first.iotype:
+    def _connection(self, first: IOAbc):
+        if self.connection is not None:
+            return False
+
+        if self.iotype is not first.iotype and not \
+                (first.iotype is IOTypes.UNTYPED or self.iotype is IOTypes.UNTYPED):
+            print("Can't connect: bad types")
             return False
 
         self.connection = first
         return True
 
-    def connection_break(self):
-        self.connection.broken()
-        self.broken()
+    def disconnect(self):
+        if self.connection is None:
+            return False
 
-    def broken(self):
+        self.connection._disconnect()
+        self._disconnect()
+        return True
+
+    def _disconnect(self):
         self.connection = None
+        print("Disconnected")

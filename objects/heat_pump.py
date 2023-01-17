@@ -1,14 +1,11 @@
 # class for heat zone elements
-from objects.connections.io_defined import IODefined
-from objects.connections.io_types import IOTypes
-from objects.connections.io_undefined import IOUndefined
+from objects.connections import *
+from objects.object import AbstractObject
 
 
-class HeatPump:
-    def __init__(self):
-        self.ports = []
-        self.ports.append(IODefined(IOTypes.WATER_INPUT))
-        self.ports.append(IODefined(IOTypes.WATER_OUTPUT))
+class HeatPump(AbstractObject):
 
-    def show(self):
-        print("test")
+    def __init__(self, sample: AbstractObject, left, top):
+        pass
+
+

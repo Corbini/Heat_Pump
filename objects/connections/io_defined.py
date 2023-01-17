@@ -4,7 +4,8 @@ from objects.connections.io_types import IOTypes
 
 class IODefined(IOAbc):
 
-    def __init__(self, iotype: IOTypes):
+    def __init__(self, iotype: IOTypes, width, height):
+        super().__init__(width, height)
         self.connection = None
         self.iotype = iotype
 

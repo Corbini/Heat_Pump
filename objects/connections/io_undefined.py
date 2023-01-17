@@ -6,9 +6,11 @@ from objects.connections.io_abc import IOAbc
 class IOUndefined(IOAbc):
     pass
 
+
 class IOUndefined(IOAbc):
 
-    def __init__(self):
+    def __init__(self, width, height):
+        super().__init__(width, height)
         self.iotype = IOTypes.UNTYPED
         self.connection = None
         self.links = [self]
@@ -17,7 +19,7 @@ class IOUndefined(IOAbc):
     def connect(self, other_io: IOAbc):
         self.disconnect()
 
-        if other_io.__connect(self) is False:
+        if other_io._connection(self) is False:
             return False
 
         self.connection = other_io

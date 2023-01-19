@@ -1,11 +1,11 @@
 # class for heat zone elements
 from objects.connections import *
-from objects.object import AbstractObject
+from objects.object import Object
 
 
-class HeatPump(AbstractObject):
+class HeatPump(Object):
 
-    def __init__(self, sample: AbstractObject, left, top):
+    def __init__(self, sample: Object, left, top):
         pass
 
 

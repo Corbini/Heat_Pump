@@ -1,5 +1,6 @@
 from objects.connections.io_abc import IOAbc
 from objects.connections.io_types import IOTypes
+from objects.connections.line import Line
 
 
 class IODefined(IOAbc):
@@ -18,6 +19,9 @@ class IODefined(IOAbc):
 
         self.connection = other_io
         print("Connected")
+
+        # Create Visual connection
+        self._gen_line()
         return True
 
     def _connection(self, first: IOAbc):

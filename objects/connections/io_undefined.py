@@ -1,6 +1,7 @@
 from objects.connections.io_defined import IODefined
 from objects.connections.io_types import IOTypes
 from objects.connections.io_abc import IOAbc
+from objects.connections.line import Line
 
 
 class IOUndefined(IOAbc):
@@ -27,6 +28,9 @@ class IOUndefined(IOAbc):
 
         if self.iotype is IOTypes.UNTYPED:
             self.set_link_type()
+
+        # Create Visual connection
+        self._gen_line()
 
         return True
 

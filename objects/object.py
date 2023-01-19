@@ -36,6 +36,12 @@ class Object(QGraphicsPixmapItem):
         for connection in untyped_ones[1:]:
             untyped_ones[0].link(connection)
 
+    def mouseMoveEvent(self, event: 'QGraphicsSceneMouseEvent') -> None:
+        super().mouseMoveEvent(event)
+        
+        for con in self.childItems():
+            con.load()
+
     def _gen_connections(self, connections: []):
         untyped_ones = []
 

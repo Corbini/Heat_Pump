@@ -1,11 +1,15 @@
 # class for heat zone elements
 from objects.connections import *
-from objects.object import Object
+from PyQt6.QtWidgets import QListWidget
+from PyQt6.QtGui import *
+from objects.connections import IODefined, IOUndefined, IOTypes
 
 
-class HeatPump(Object):
+class HeatPump(QW):
 
-    def __init__(self, sample: Object, left, top):
+    def __init__(self):
         pass
 
+    def load(self):
+        panas = QLabel
 

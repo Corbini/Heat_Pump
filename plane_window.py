@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from PyQt6.Qt6 import *
-from toolbox import ToolBox
+from toolbox.toolbox import ToolBox
 from plane import Plane
 
 
@@ -16,7 +16,7 @@ class PlaneWindow(QMainWindow):
         self.setWindowIcon(QIcon("images/Logo.png"))
 
         self._create_menubar()
-
+        self.acceptDrops()
         # Create Plane
         self.plane = Plane(self)
         self._set_plane()

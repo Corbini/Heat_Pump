@@ -1,7 +1,8 @@
-from objects.connections.io_abc import IOAbc
+
 from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsItem, QGraphicsScene
 from PyQt6.QtGui import QPixmap, QImage
-from objects.connections import *
+from ioobjects.bases import *
+from ioobjects import *
 
 
 class Object(QGraphicsPixmapItem):
@@ -23,14 +24,14 @@ class Object(QGraphicsPixmapItem):
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsFocusable, True)
 
-    def add_connection(self, connection: IOAbc):
+    def add_connection(self, connection: IOBase):
         connection.setParentItem(self)
 
     def link_untyped(self):
         untyped_ones = []
 
         for connection in self._connections:
-            if connection.iotype is IOTypes.UNTYPED:
+            if connection.iotype is IOType.UNTYPED:
                 untyped_ones.append(connection)
 
         for connection in untyped_ones[1:]:
@@ -48,7 +49,7 @@ class Object(QGraphicsPixmapItem):
         for connection in connections:
             new_connection = IODefined(connection.iotype, connection.x(), connection.y())
             new_connection.setParentItem(self)
-            if new_connection.iotype is IOTypes.UNTYPED:
+            if new_connection.iotype is IOType.UNTYPED:
                 untyped_ones.append(new_connection)
 
         for connection in untyped_ones[1:]:

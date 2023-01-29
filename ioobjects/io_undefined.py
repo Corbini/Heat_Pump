@@ -1,3 +1,5 @@
+import pickle
+
 from ioobjects.bases import *
 from PyQt6.QtWidgets import QGraphicsPixmapItem
 
@@ -8,10 +10,17 @@ class IOUndefined(IOGraphic):
 
 class IOUndefined(IOGraphic, IOLink):
 
-    def __init__(self, parent: QGraphicsPixmapItem, x, y):
-        IOGraphic.__init__(self, parent, x, y, IOType.UNTYPED)
-        IOType.__init__(self)
-        print("IOUndefined Created")
+    def __init__(self, parent: QGraphicsPixmapItem, x, y, pointed=Pointed.LEFT):
+        IOGraphic.__init__(self, parent, x, y, IOType.UNTYPED, pointed)
+        IOLink.__init__(self)
+
+    def __setstate__(self, state):
+        if state[0] == "ioun":
+            IOGraphic.__setstate__(self, state[1])
+            self._links = state[2]
+
+    def __getstate__(self):
+        return "ioun", IOGraphic.__getstate__(self), self._links
 
     def connect(self, other_io: IOBase):
         self.disconnect()

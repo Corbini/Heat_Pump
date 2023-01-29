@@ -13,9 +13,9 @@ class IOType(Enum):
 
 
 path_list = {
-        IOType.UNTYPED: "images/others/connection.png",
-        IOType.WATER_INPUT: "images/others/connection.png",
-        IOType.WATER_OUTPUT: "images/others/connection.png",
-        IOType.DOMESTIC_INPUT: "images/others/connection.png",
-        IOType.DOMESTIC_OUTPUT: "images/others/connection.png"
+        IOType.UNTYPED: "images/connections/untyped.png",
+        IOType.WATER_INPUT: "images/connections/water_input.png",
+        IOType.WATER_OUTPUT: "images/connections/water_output.png",
+        IOType.DOMESTIC_INPUT: "images/connections/domestic_input.png",
+        IOType.DOMESTIC_OUTPUT: "images/connections/domestic_output.png"
     }

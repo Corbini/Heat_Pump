@@ -8,14 +8,20 @@ class IOLink:
 
 class IOLink:
 
-    _links = []
     _connectedIO = None
     _iotype = IOType.UNTYPED
+    _links : list
+
+    def __init__(self):
+        self._links = [self]
+        print(self._links)
 
     def link(self, other_io: IOLink):
         self._links.extend(other_io._links)
         for io_others_linked in other_io._links:
             io_others_linked._links = self._links
+
+        print("List change: \n", self._links)
 
     def _check_connection(self):
         for io_linked in self._links:

@@ -7,6 +7,14 @@ from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsSceneMouseEvent
 from PyQt6.QtGui import QImage, QPixmap
 
 from abc import abstractmethod
+from enum import Enum
+
+
+class Pointed(Enum):
+    TOP = 0
+    RIGHT = 90
+    BOTTOM = 180
+    LEFT = 270
 
 
 class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
@@ -14,9 +22,12 @@ class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
     _connection_line = None
     _line = None
 
-    def __init__(self, parent: QGraphicsPixmapItem, x, y, iotype: IOType):
+    def __init__(self, parent: QGraphicsPixmapItem, x, y, iotype: IOType, pointed: Pointed):
         # QGraphicsPixmapItem has super therefor it init Dragline
         QGraphicsPixmapItem.__init__(self, parent, io_from=self)
+        self.pointed = pointed
+        self.setTransformOriginPoint(15, 15)
+        self.setRotation(pointed.value)
         IOBase.__init__(self, x, y, iotype)
 
         image = QPixmap(QImage(self._iotype.path()))
@@ -42,14 +53,20 @@ class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
                 if issubclass(pointed.__class__, IOBase):
                     self.connect(pointed)
 
+    @abstractmethod
     def __getstate__(self):
         self._x = self.x()
         self._y = self.y()
-        return IOBase.__getstate__(self)
+        state = IOBase.__getstate__(self), self.pointed
+        return state
 
+    @abstractmethod
     def __setstate__(self, state):
-        if state[0] == "io":
-            self.__init__(None, state[1], state[2], state[3])
+        new_iobase = state[0]
+        new_pointed = state[1]
+
+        if new_iobase[0] == "io":
+            IOGraphic.__init__(self, None, new_iobase[1], new_iobase[2], new_iobase[3], new_pointed)
         else:
             print("Error while reading")
 

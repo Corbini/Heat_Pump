@@ -1,14 +1,20 @@
 from ioobjects.bases import *
 from PyQt6.QtWidgets import QGraphicsPixmapItem
 
-
 class IODefined(IOGraphic):
 
-    def __init__(self, parent: QGraphicsPixmapItem, x, y, iotype: IOType):
-        IOGraphic.__init__(self, parent, x, y, iotype)
-        print(self._iotype)
+    def __init__(self, parent: QGraphicsPixmapItem, x, y, iotype: IOType, pointed=Pointed.LEFT):
+        IOGraphic.__init__(self, parent, x, y, iotype, pointed)
 
     # class tries to connect and output if it connected
+
+    def __setstate__(self, state):
+        if state[0] == "iodef":
+            IOGraphic.__setstate__(self, state[1])
+
+    def __getstate__(self):
+        return "iodef", IOGraphic.__getstate__(self)
+
     def connect(self, other_io: IOType):
         self.disconnect()
 

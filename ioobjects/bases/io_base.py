@@ -13,7 +13,6 @@ class IOBase:
         self._x = x
         self._y = y
         self._iotype = iotype
-        print("test", self._iotype)
 
     def __getstate__(self):
         return "io", self._x, self._y, self._iotype

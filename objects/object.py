@@ -1,3 +1,4 @@
+import pickle
 
 from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsItem, QGraphicsScene
 from PyQt6.QtGui import QPixmap, QImage
@@ -6,17 +7,25 @@ from ioobjects import *
 
 
 class Object(QGraphicsPixmapItem):
+    pass
 
-    def __init__(self, sample: QGraphicsPixmapItem, left, top, image: QImage = None):
-        if image is None:
+
+class Object(QGraphicsPixmapItem):
+
+    def __init__(self, sample: Object, left: int, top: int, image_path: str = None) -> object:
+        if sample is  not None:
             # Creating copy for plane
-
+            self._path = sample._path
             super().__init__(sample.pixmap().copy())
             self._gen_connections(sample.childItems())
             self.setPos(left, top)
 
         else:
             # Creating Sample
+            self._path = image_path
+            image = QImage(self._path)
+            if image.isNull():
+                print("Eror while loading image:", self._path)
             super().__init__(QPixmap(image))
             print("Load Sample")
 
@@ -54,3 +63,19 @@ class Object(QGraphicsPixmapItem):
 
         for connection in untyped_ones[1:]:
             untyped_ones[0].link(connection)
+
+    def __getstate__(self):
+
+        children = map(pickle.dumps, self.childItems())
+
+        return "obj", self.x(), self.y(), self._path, children
+
+    def __setstate__(self, state):
+        print("reading")
+        if state[0] == "obj":
+            Object.__init__(self, None, state[1], state[2], state[3])
+            for children in state[4]:
+                con = pickle.loads(children)
+                self.add_connection(con)
+        else:
+            print("Error while reading")

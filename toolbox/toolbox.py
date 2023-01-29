@@ -2,6 +2,8 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from toolbox import *
+from pathlib import Path
+
 
 # class for plane ToolBox and its menu
 class ToolBox(QWidget):
@@ -15,7 +17,16 @@ class ToolBox(QWidget):
 
         # Show it on screen
         self.show()
+        self.setLayout(QHBoxLayout())
         self.tests()
 
+    def add_sample(self, file_name, name):
+        sample = Sample(None, str(file_name), name)
+        self.layout().addWidget(sample)
+
     def tests(self):
-        sample = Sample(self, "images/heat_pumps/Gree_Split.png", "Gree Split")
+        self.add_sample("Gree_Split.io", "Gree Split")
+        self.add_sample("Kaisai_Split.io", "Kaisai Split")
+        self.add_sample("Panasonic_Split.io", "Panasonic Split")
+        self.add_sample("radiators.io", "Radiators")
+        self.add_sample("Galmet_1_exchanger.io", "Galmet 1 Exchanger")

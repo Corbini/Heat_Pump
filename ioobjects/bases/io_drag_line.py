@@ -26,7 +26,8 @@ class DragLine:
     def update_line(self, event: QGraphicsSceneMouseEvent):
         mouse_pos = event.scenePos()
         io_pos = self._io_from.scenePos()
-        self._line_item.setLine(15 + io_pos.x(), 15 + io_pos.y(), mouse_pos.x(),
+        transform =  self._io_from.transformOriginPoint()
+        self._line_item.setLine(io_pos.x() + 15, io_pos.y() + 15, mouse_pos.x(),
                                 mouse_pos.y())
 
     def check_release(self) -> bool:

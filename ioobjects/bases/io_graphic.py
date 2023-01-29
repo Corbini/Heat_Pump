@@ -4,7 +4,7 @@ from ioobjects.bases.io_drag_line import DragLine
 
 # PyQt
 from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsSceneMouseEvent
-from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtGui import QImage, QPixmap, QTransform
 
 from abc import abstractmethod
 from enum import Enum
@@ -26,16 +26,27 @@ class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
         # QGraphicsPixmapItem has super therefor it init Dragline
         QGraphicsPixmapItem.__init__(self, parent, io_from=self)
         self.pointed = pointed
+        """
         self.setTransformOriginPoint(15, 15)
-        self.setRotation(pointed.value)
+        self.setRotation(pointed.value)"""
         IOBase.__init__(self, x, y, iotype)
 
+        self.set_image()
+
+        self.setPos(x, y)
+
+    def set_image(self):
+
         image = QPixmap(QImage(self._iotype.path()))
+
+        transform = QTransform()
+        transform.translate(15, 15)
+        transform.rotate(self.pointed.value)
+        image = image.transformed(transform)
+
         if image.isNull():
             print("Error while reading data")
         self.setPixmap(image)
-
-        self.setPos(x, y)
 
     def mousePressEvent(self, event: 'QGraphicsSceneMouseEvent') -> None:
         self.check_pressed(event)

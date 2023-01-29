@@ -27,7 +27,6 @@ class Object(QGraphicsPixmapItem):
             if image.isNull():
                 print("Eror while loading image:", self._path)
             super().__init__(QPixmap(image))
-            print("Load Sample")
 
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsMovable, True)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
@@ -74,8 +73,19 @@ class Object(QGraphicsPixmapItem):
         print("reading")
         if state[0] == "obj":
             Object.__init__(self, None, state[1], state[2], state[3])
+
+            is_undef = False
             for children in state[4]:
                 con = pickle.loads(children)
                 self.add_connection(con)
+                if isinstance(con, IOUndefined):
+                    is_undef = True
+
+            if is_undef:
+                childrens = self.childItems()
+                for child in childrens[1:]:
+                    childrens[0].link(child)
+
         else:
             print("Error while reading")
+

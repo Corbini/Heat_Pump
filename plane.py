@@ -3,9 +3,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtCore import *
 
 # Test
-# from objects.connections import *
 from objects.object import Object
-from objects.heat_source import HeatSource
 
 from ioobjects.bases import *
 from ioobjects import *
@@ -31,7 +29,17 @@ class Plane(QGraphicsView):
 
     def load(self):
 
+        # self.test_obj()
         gen_obj()
+        pass
+
+    def test_obj(self):
+        obj = Object(None, 100, 100, "images/pumps/pump.png")
+        obj.setPos(100, 100)
+        con = IOUndefined(obj, -15, 15, Pointed.RIGHT)
+        con = IOUndefined(obj, 40, 15, Pointed.RIGHT)
+
+        self.plane.addItem(obj)
 
     def dragEnterEvent(self, event: QDragEnterEvent):
         if event.mimeData().hasText:

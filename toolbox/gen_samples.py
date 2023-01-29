@@ -23,7 +23,7 @@ class GenObj:
         first_undef = None
         for child in self.obj.childItems():
             if isinstance(child, IOUndefined):
-                if first_undef == None:
+                if first_undef is None:
                     first_undef = child
                 else:
                     first_undef.link(child)
@@ -62,3 +62,8 @@ def gen_obj():
     galmet_1.gen_def(130, 245, IOType.DOMESTIC_INPUT, Pointed.LEFT)
     galmet_1.gen_def(130, 20, IOType.DOMESTIC_OUTPUT, Pointed.RIGHT)
     galmet_1.save()
+
+    pump = GenObj("images/pumps/pump.png")
+    pump.gen_undef(-15, 15, Pointed.RIGHT)
+    pump.gen_undef(40, 15, Pointed.RIGHT)
+    pump.save()

@@ -51,4 +51,5 @@ class IODefined(IOGraphic):
     def _disconnect(self):
         self._connectedIO = None
         print("Disconnected")
+        del self.connection
 

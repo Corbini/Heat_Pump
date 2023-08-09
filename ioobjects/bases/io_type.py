@@ -19,3 +19,4 @@ path_list = {
         IOType.DOMESTIC_INPUT: "images/connections/domestic_input.png",
         IOType.DOMESTIC_OUTPUT: "images/connections/domestic_output.png"
     }
+

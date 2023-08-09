@@ -3,6 +3,7 @@ from PyQt6.QtGui import *
 from PyQt6.Qt6 import *
 from toolbox.toolbox import ToolBox
 from plane import Plane
+from plane import DrawBoard, DrawBoard_Interface
 
 
 # class for plane window and its menu
@@ -18,9 +19,8 @@ class PlaneWindow(QMainWindow):
         self._create_menubar()
         self.acceptDrops()
         # Create Plane
-        self.plane = Plane(self)
-        self._set_plane()
-        self.plane.load()
+        self.scene = DrawBoard(self)
+        self.scene_view = DrawBoard_Interface(self, self.scene)
 
         # Create toolbox
         self.toolbox = ToolBox()
@@ -29,7 +29,7 @@ class PlaneWindow(QMainWindow):
         self.show()
 
     def _set_plane(self):
-        self.plane.setGeometry(0, self.menubar.size().height(),
+        self.scene_view.setGeometry(0, self.menubar.size().height(),
                                self.size().width(), self.size().height() - self.menubar.size().height())
 
     def resizeEvent(self, event: QResizeEvent):

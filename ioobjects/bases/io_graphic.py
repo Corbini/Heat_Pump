@@ -1,6 +1,7 @@
 from ioobjects.bases.io_base import IOBase
 from ioobjects.bases.io_type import IOType
 from ioobjects.bases.io_drag_line import DragLine
+from lines import Connection
 
 # PyQt
 from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsSceneMouseEvent
@@ -17,6 +18,10 @@ class Pointed(Enum):
     LEFT = 270
 
 
+class IOGraphic:
+    pass
+
+
 class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
 
     _connection_line = None
@@ -30,8 +35,8 @@ class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
         self.setTransformOriginPoint(15, 15)
         self.setRotation(pointed.value)"""
         IOBase.__init__(self, x, y, iotype)
-
         self.set_image()
+        self.connection = None
 
         self.setPos(x, y)
 
@@ -82,11 +87,12 @@ class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
             print("Error while reading")
 
     def _gen_line(self):
-        pass
+        self.connection = Connection(self, self._connectedIO, self.scene())
 
     def load(self):
         if self._line is not None:
             self._line.load()
+
     @abstractmethod
     def connect(self, other_io: IOBase) -> bool:
         return False
@@ -102,3 +108,4 @@ class IOGraphic(QGraphicsPixmapItem, DragLine, IOBase):
     @abstractmethod
     def _disconnect(self):
         return False
+

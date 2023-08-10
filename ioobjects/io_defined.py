@@ -53,3 +53,8 @@ class IODefined(IOGraphic):
         print("Disconnected")
         del self.connection
 
+    def add_on_scene(self, position_x, position_y, identity_number):
+        self.setX(position_x)
+        self.setY(position_y)
+        self.__identity_number = identity_number
+        self.setParentItem()

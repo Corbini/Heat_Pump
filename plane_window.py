@@ -2,9 +2,9 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from PyQt6.Qt6 import *
 from toolbox.toolbox import ToolBox
-from plane import Plane
 from plane import DrawBoard, DrawBoard_Interface
 
+from file import save_obj
 
 # class for plane window and its menu
 class PlaneWindow(QMainWindow):
@@ -19,9 +19,8 @@ class PlaneWindow(QMainWindow):
         self._create_menubar()
         self.acceptDrops()
         # Create Plane
-        self.scene = DrawBoard(self)
+        self.scene = DrawBoard()
         self.scene_view = DrawBoard_Interface(self, self.scene)
-
         # Create toolbox
         self.toolbox = ToolBox()
 

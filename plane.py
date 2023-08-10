@@ -12,52 +12,6 @@ from file import save_obj, load_obj
 from toolbox.gen_samples import gen_obj
 
 
-#
-# class Restriction:
-#
-#     def check():
-#         return None
-#
-# class Item:
-#     def __init__(self, image, position_x: int, position_y: int,  restrictions = list(), connector_change = False):
-#         self.graphic_interface = QGraphicsPixmapItem()
-#         self.graphic_interface.setPixmap(image)
-#         self.graphic_interface.setX(position_x)
-#         self.graphic_interface.setY(position_y)
-#
-#         self.__connection_change = connector_change
-#         self.__connectors = dict()
-#         self.__connectors_count = 0
-#         self.__restrictions = restrictions
-#         self.__identity_number = DRAWBOARD.add(self)
-#
-#
-#     def add_connection(self, type: IOType):
-#         self.__connectors[self.__connectors_count] = Connector(type)
-#
-#     def __change_connectors_type(self):
-#         if self.__connection_change is False:
-#             return
-#
-#         for connector in self.__connectors:
-#             if connector.is_linked():
-#                 return
-#
-#         for connector in self.__connectors:
-#             connector.type = IOType.UNTYPED
-#
-#     def check_restrictions(self):
-#         not_passed = list()
-#         for restriction in self.__restrictions:
-#             status = restriction()
-#             if status is not None:
-#                not_passed.append(status)
-#
-#     def get_identity(self):
-#         return int(self.__identity_number)
-#
-
-
 class DrawBoard_Interface(QGraphicsView):
     def __init__(self, window, scene):
         self.plane = QGraphicsScene(0, 0, 1000, 1000)
@@ -81,7 +35,7 @@ class DrawBoard_Interface(QGraphicsView):
         file_name = event.mimeData().text()
         x = file_name.split('.')
         if x[1] == 'io':
-            # obj = load_obj(path)
+
             obj = load_obj(file_name)
 
             # getting position (from left top window)
@@ -100,12 +54,13 @@ class DrawBoard_Interface(QGraphicsView):
 
             # applying pos to object
             # print(pos_from, pos, pos_scene)
-            obj.setPos(pos_scene.x(), pos_scene.y())
-            status = self.scene.add(obj)
-            if status == -1:
+            object_id = self.scene.add(obj)
+            if object_id == -1:
                 print("Error at loading ")
+                return
 
-            self.plane.addItem(obj)
+            obj.add_on_scene(pos_scene.x(), pos_scene.y(), object_id, self.plane)
+
         else:
             print("Incorrent file:", x[1])
         event.acceptProposedAction()
@@ -114,7 +69,7 @@ class DrawBoard_Interface(QGraphicsView):
 # ProjectBoard
 class DrawBoard:
 
-    def __init__(self, window):
+    def __init__(self):
         self.__dictionary = {'': {}}
 
         gen_obj()
@@ -123,8 +78,20 @@ class DrawBoard:
         del self.__dictionary
         self.__dictionary = {'': {}}
 
-    def load(self, file_path: str):
-        pass
+    def __getstate__(self):
+        items = map(pickle.dumps, self.__dictionary)
+
+        return "brd", items
+
+    def __setstate__(self, state):
+        self.__init__()
+        print("reading")
+        if state[0] == "brd":
+            DrawBoard()
+
+            for item in state[1]:
+                constructed_item = pickle.loads(item)
+                self.__dictionary[constructed_item.id()] = constructed_item
 
     def __del__(self):
         del self.__dictionary
@@ -134,7 +101,8 @@ class DrawBoard:
         for identity_number in range(10000):
             print(self.__dictionary.get(identity_number))
             if self.__dictionary.get(identity_number) is None:
-                self.__dictionary[identity_number] = Item
+                self.__dictionary[identity_number] = item
+                return identity_number
 
         return -1
 

@@ -67,3 +67,4 @@ class IOUndefined(IOGraphic, IOLink):
         self._connectedIO = None
         self.check_link_type()
         del self.connection
+

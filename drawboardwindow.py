@@ -1,13 +1,11 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
-from PyQt6.Qt6 import *
 from toolbox.toolbox import ToolBox
-from plane import DrawBoard, DrawBoard_Interface
+from drawboard import DrawBoard
+from window import Window
 
-from file import save_obj
 
-# class for plane window and its menu
-class PlaneWindow(QMainWindow):
+class DrawBoardWindow(QMainWindow):
 
     def __init__(self):
         # Window properties
@@ -15,27 +13,27 @@ class PlaneWindow(QMainWindow):
         self.resize(900, 900)
         self.setWindowTitle("Widok Projektu")
         self.setWindowIcon(QIcon("images/Logo.png"))
-
-        self._create_menubar()
         self.acceptDrops()
+
+        self.__create_menubar()
         # Create Plane
-        self.scene = DrawBoard()
-        self.scene_view = DrawBoard_Interface(self, self.scene)
+        self.draw_board = DrawBoard()
+        self.draw_board.set_window(self)
         # Create toolbox
         self.toolbox = ToolBox()
 
         # Show it on screen
         self.show()
 
-    def _set_plane(self):
-        self.scene_view.setGeometry(0, self.menubar.size().height(),
-                               self.size().width(), self.size().height() - self.menubar.size().height())
+    def __set_plane(self):
+        self.draw_board.set_view_size(0, self.menubar.size().height(),
+                                       self.size().width(), self.size().height() - self.menubar.size().height())
 
     def resizeEvent(self, event: QResizeEvent):
         super().resizeEvent(event)
-        self._set_plane()
+        self.__set_plane()
 
-    def _create_menubar(self):
+    def __create_menubar(self):
         self.menubar = QMenuBar(self)
 
         self.extract = QAction("Extract", self)

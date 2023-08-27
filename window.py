@@ -9,7 +9,7 @@ class Window(QMainWindow):
         super().__init__()
 
         # window setup
-        self.setWindowTitle("Projekty")
+        self.setWindowTitle("Projects")
         self.setWindowIcon(QIcon('images/Logo.png'))
         self.setFixedSize(1280, 960)
         self.background = QLabel()

@@ -1,12 +1,15 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from PyQt6.QtCore import *
+from object.onboard import OnBoard
 
 
-class Connection(QGraphicsItemGroup):
-    def __init__(self, first: QGraphicsPixmapItem, second: QGraphicsItemGroup, scene: QGraphicsScene):
-        super().__init__()
-        scene.addItem(self)
+class Connection(QGraphicsItemGroup, OnBoard):
+    __parent = None
+
+    def __init__(self, first: QGraphicsPixmapItem, second: QGraphicsPixmapItem):
+        QGraphicsItemGroup.__init__(self)
+        self.get_parent().addItem(self)
 
         self.first = first
         self.second = second

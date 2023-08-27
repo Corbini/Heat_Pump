@@ -1,8 +1,5 @@
-from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsLineItem, QGraphicsScene, QGraphicsSceneMouseEvent
-from PyQt6.QtGui import QPainter
-from PyQt6.QtCore import QLine
+from PyQt6.QtWidgets import QGraphicsPixmapItem, QGraphicsLineItem, QGraphicsSceneMouseEvent
 from PyQt6.QtCore import Qt
-from PyQt6.QtCore import QEvent
 
 
 class DragLine:

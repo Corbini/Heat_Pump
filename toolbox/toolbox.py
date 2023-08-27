@@ -1,4 +1,3 @@
-# class for toolbox and its category
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from toolbox import *
@@ -6,7 +5,6 @@ from pathlib import Path
 import os
 
 
-# class for plane ToolBox and its menu
 class ToolBox(QWidget):
 
     def __init__(self):

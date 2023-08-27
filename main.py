@@ -1,13 +1,11 @@
-
 import sys
-
-from plane_window import PlaneWindow
+from drawboardwindow import DrawBoardWindow
 from PyQt6.QtWidgets import QApplication
 
 
 def main():
     app = QApplication(sys.argv)
-    window = PlaneWindow()
+    window = DrawBoardWindow()
 
     sys.exit(app.exec())
 

@@ -17,5 +17,5 @@ Quest:
    10. Make save/load functions of graphic_view
 
 
-Dane:
+Packages:
    PyQT https://riverbankcomputing.com/software/pyqt/intro
